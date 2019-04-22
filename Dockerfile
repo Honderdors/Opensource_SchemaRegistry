@@ -33,4 +33,5 @@ EXPOSE 9091
 WORKDIR /opt/hortonworks-registry
 USER hortonworks
 ENTRYPOINT ["./entrypoint.sh"]
+WORKDIR /opt/hortonworks-registry
 CMD ["./bin/registry-server-start.sh" "./conf/registry.yaml"]
