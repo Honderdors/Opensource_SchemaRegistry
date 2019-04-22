@@ -31,10 +31,11 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.co
 
 # And add ``listen_addresses`` to ``/etc/postgresql/9.6/main/postgresql.conf``
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
-
+RUN groupadd -r hortonworks && useradd --no-log-init -r -g postgres hortonworks
 # Expose the PostgreSQL port
 #EXPOSE 5432
 
+USER hortonworks
 COPY entrypoint.sh /opt/hortonworks-registry/entrypoint.sh
 RUN chmod +x /opt/hortonworks-registry/entrypoint.sh && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0
 ENV DB_DATABASE=schema_registry
@@ -45,7 +46,7 @@ ENV DB_PORT=5432
 EXPOSE 9090
 EXPOSE 9091
 
-USER hortonworks
+
 WORKDIR /opt/hortonworks-registry
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["./bin/registry-server-start.sh" "./conf/registry.yaml"]
