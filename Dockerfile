@@ -38,10 +38,10 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 COPY entrypoint.sh /opt/hortonworks-registry/entrypoint.sh
 RUN chmod +x /opt/hortonworks-registry/entrypoint.sh && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0
 ENV DB_DATABASE=schema_registry
-ENV DB_USER=registry_user
-ENV DB_PASS=registry_password
+ENV DB_USER=postgres
+ENV DB_PASS=postgres
 ENV DB_HOST=localhost
-ENV DB_PORT=3306
+ENV DB_PORT=5432
 EXPOSE 9090
 EXPOSE 9091
 
