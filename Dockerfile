@@ -38,7 +38,9 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 # Expose the PostgreSQL port
 #EXPOSE 5432
 
-
+# Add VOLUMEs to allow backup of config, logs and databases
+VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+RUN /usr/lib/postgresql/9.6/bin/postgres -D /var/lib/postgresql/9.6/main -c config_file=/etc/postgresql/9.6/main/postgresql.conf
 
 USER hortonworks
 ENV DB_DATABASE=schema_registry
