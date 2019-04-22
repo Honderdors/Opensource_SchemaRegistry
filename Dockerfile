@@ -40,7 +40,7 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-RUN /usr/lib/postgresql/9.6/bin/pg_ctl -w start -D /var/lib/postgresql/9.6/main -c config_file=/etc/postgresql/9.6/main/postgresql.conf
+#RUN /usr/lib/postgresql/9.6/bin/pg_ctl -w start -D /var/lib/postgresql/9.6/main -c config_file=/etc/postgresql/9.6/main/postgresql.conf
 
 
 USER hortonworks
