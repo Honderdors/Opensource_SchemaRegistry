@@ -10,7 +10,7 @@ ENV JAVA_DEBIAN_VERSION 11.0.1+13-2~bpo9+1
 
 RUN apt-get install -y wget unzip openjdk-11-jre postgresql-9.6
 
-RUN groupadd -r hortonworks && useradd --no-log-init -r -g hortonworks hortonworks && \
+RUN groupadd -r hortonworks && useradd --no-log-init -r -g hortonworks hortonworks && useradd --no-log-init -r -g hortonworks postgres && \
     mkdir -p /opt/ && wget -O /opt/hortonworks-registry-0.7.0.zip https://github.com/hortonworks/registry/releases/download/v0.7.0/hortonworks-registry-0.7.0.zip && \
     unzip /opt/hortonworks-registry-0.7.0.zip -d /opt && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0 && rm /opt/hortonworks-registry-0.7.0.zip && ln -s /opt/hortonworks-registry-0.7.0 /opt/hortonworks-registry
 
@@ -31,7 +31,7 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.co
 
 # And add ``listen_addresses`` to ``/etc/postgresql/9.6/main/postgresql.conf``
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
-RUN useradd --no-log-init -r -g postgres hortonworks
+
 # Expose the PostgreSQL port
 #EXPOSE 5432
 
