@@ -10,9 +10,12 @@ ENV JAVA_DEBIAN_VERSION 11.0.1+13-2~bpo9+1
 
 RUN apt-get install -y wget unzip openjdk-11-jre postgresql-9.6
 
-RUN groupadd -r hortonworks && useradd --no-log-init -r -g hortonworks hortonworks && usermod -a -G hortonworks postgres && \
-    mkdir -p /opt/ && wget -O /opt/hortonworks-registry-0.7.0.zip https://github.com/hortonworks/registry/releases/download/v0.7.0/hortonworks-registry-0.7.0.zip && \
+RUN groupadd -r hortonworks && useradd --no-log-init -r -g hortonworks hortonworks && usermod -a -G hortonworks postgres 
+RUN mkdir -p /opt/ && wget -O /opt/hortonworks-registry-0.7.0.zip https://github.com/hortonworks/registry/releases/download/v0.7.0/hortonworks-registry-0.7.0.zip && \
     unzip /opt/hortonworks-registry-0.7.0.zip -d /opt && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0 && rm /opt/hortonworks-registry-0.7.0.zip && ln -s /opt/hortonworks-registry-0.7.0 /opt/hortonworks-registry
+
+COPY entrypoint.sh /opt/hortonworks-registry/entrypoint.sh
+RUN chmod +x /opt/hortonworks-registry/entrypoint.sh && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0
 
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
@@ -35,9 +38,9 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 # Expose the PostgreSQL port
 #EXPOSE 5432
 
+
+
 USER hortonworks
-COPY entrypoint.sh /opt/hortonworks-registry/entrypoint.sh
-RUN chmod +x /opt/hortonworks-registry/entrypoint.sh && chown -R hortonworks:hortonworks /opt/hortonworks-registry-0.7.0
 ENV DB_DATABASE=schema_registry
 ENV DB_USER=postgres
 ENV DB_PASS=postgres
