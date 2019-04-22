@@ -26,10 +26,6 @@ EXPOSE 9090
 EXPOSE 9091
 
 
-
-#RUN  mv /opt/hortonworks-registry/conf/registry.yaml.template  /opt/hortonworks-registry/conf/registry.yaml
-#RUN /opt/hortonworks-registry/bootstrap/bootstrap-storage.sh drop && /opt/hortonworks-registry/bootstrap/bootstrap-storage.sh create
-
 WORKDIR /opt/hortonworks-registry
 USER hortonworks
 ENTRYPOINT ["./entrypoint.sh"]
